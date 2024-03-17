@@ -1,0 +1,84 @@
+pipeline {
+    agent any 
+    environment {
+        registryCredential = 'ecr:ap-northeast-1:137622444182'
+        REPOSITORY_URI = "137622444182.dkr.ecr.ap-northeast-1.amazonaws.com/vp_test" 
+        vprofileRegistry = "https://137622444182.dkr.ecr.ap-northeast-1.amazonaws.com/vp_test"
+        AWS_DEFAULT_REGION='us-east-1'
+        AWS_ACCOUNT_ID='137622444182'
+        IMAGE_REPO_NAME='vp_test'
+    }
+    stages {
+        stage('Fetch code'){
+            steps {
+                git branch: 'docker', url : 'https://github.com/devopshydclub/vprofile-project.git'
+
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('Checkstyle Analysis'){
+            steps{
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+        stage('Sonar Analysis'){
+            environment {
+                scannerHome = tool 'sonar4.7'
+            }
+            steps{
+                withSonarQubeEnv('sonar') {
+
+                    
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                    -Dsonar.projectName=vprofile \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+         stage('Logging into AWS ECR') {
+            steps {
+                script {
+                sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                        }
+                 
+                    }
+                }   
+        stage('Build App Image') {
+            steps{
+                script {
+                    dockerImage = docker.build(REPOSITORY_URI+"$BUILD_NUMBER","./Docker-files/app/multistage/")
+                }
+            }
+        }
+        stage('Upload App Image'){
+            steps{
+                script {
+                    
+                        
+                        
+                        sh """docker tag ${IMAGE_REPO_NAME}:${BUILD_NUMBER} ${REPOSITORY_URI}:$BUILD_NUMBER"""
+                        sh """docker push 137622444182.dkr.ecr.ap-northeast-1.amazonaws.com/vprofileapp_img${BUILD_NUMBER}"""
+                    
+                }
+            }
+        }
+        
+    }
+}

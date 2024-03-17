@@ -1,0 +1,47 @@
+intro
+
+automate pipeline setup with jenkins
+
+Jenkinsfile defines stages in CICD pipeline
+
+Jenkinsfile is a text file with Piepline DSL syntax
+
+similar to groovy
+
+two syntax - Scripted and Declarative
+
+____
+
+Pipeline concepts:
+
+	pipeline
+	node/agent
+	stage
+	step
+
+
+syntax:
+
+
+
+pipeline {
+    agent any
+   
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    stage('Test') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    stage('Deploy') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}

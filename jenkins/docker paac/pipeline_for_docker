@@ -1,0 +1,72 @@
+pipeline {
+    agent any 
+    environment {
+        registryCredential = 'ecr:ap-northeast-1:jen_aws'
+        appRegistry = "137622444182.dkr.ecr.ap-northeast-1.amazonaws.com/vprofileapp_img" 
+        vprofileRegistry = "https://137622444182.dkr.ecr.ap-northeast-1.amazonaws.com/vprofileapp_img"
+    }
+    stages {
+        stage('Fetch code'){
+            steps {
+                git branch: 'docker', url : 'https://github.com/devopshydclub/vprofile-project.git'
+
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('Checkstyle Analysis'){
+            steps{
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+        stage('Sonar Analysis'){
+            environment {
+                scannerHome = tool 'sonar4.7'
+            }
+            steps{
+                withSonarQubeEnv('sonar') {
+
+                    
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                    -Dsonar.projectName=vprofile \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+
+            }
+        }
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+        stage('Build App Image') {
+            steps{
+                script {
+                    dockerImage = docker.build(appRegistry+"$BUILD_NUMBER","./Docker-files/app/multistage/")
+                }
+            }
+        }
+        stage('Upload App Image'){
+            steps{
+                script {
+                    docker.withRegistry(registryCredential,vprofileRegistry){
+                        
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+        
+    }
+}

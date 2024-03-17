@@ -1,0 +1,26 @@
+why code analysis 
+
+best pratices
+Vulnerabilities in code
+Functional errors before deployment
+
+variety of test performed on the code
+
+_________
+
+Tools
+example:
+    checkstyle
+    sonarqube
+
+
+
+______________
+
+in sonar create token for jenkins copy it
+in jenkings >> system>> sonarqube server >>
+ add name
+ and server url (sonar http://public)
+ add token
+ and save
+ 

@@ -1,0 +1,29 @@
+after creating a job 
+to do versioning
+
+configure>> add build steps>> execute shell>> :
+mkdir -p versions
+cp target/vprofile-v2.war versions/vprofile-V$BUILD_ID.war
+
+(create a versions folder, copy the war file in the versions folder
+and version it using -V$BUILD_ID) ($BUILD_ID-- job id)
+
+_______________________________________
+
+other ways of versioning:
+configure>> general>> (tick) this projecct is parameterized>> name a varialbe (eg: VERSION)
+ in build step 
+use command:
+cp target/vprofile-v2.war versions/vprofile-V$VERSION.war
+($VERSION because the variable name was declared VERSION)
+
+_____________________________________
+using plugins
+dashbord>> manage jenkins >> plugins>>
+search timestamp
+install zentime plugin
+
+in configure>general
+select build_timestamp option set timestamp format to use it later
+
+cp target/vprofile-v2.war versions/vprofile-V$BUILD_ID-$BUILD_TIMESTAMP.war

@@ -1,0 +1,31 @@
+software repositoreies:
+___________________________
+Your own repositoreies for softwares/packages
+maven: Maven dependencies
+
+apt:packages for debian based system
+
+yum: packages for redhat based system
+
+nuget: package manager for .NET 
+
+npm: package manager  for javascript 
+
+docker: Registry to store Docker images
+___________________________
+
+
+Nexus software repositoreies manager.
+
+runs on java 
+used to store artifacts
+used as a package manager for dependenciies
+opensource & Enterprise versions
+supports variety of repo like maven.apt.docker, ruby gem etc etc
+___________________________
+
+
+
+create a repo in nexus
+u need to add the credientials of nexus in jenkins :
+manage jenkins >crendentials>system>global credientials > create

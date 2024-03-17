@@ -1,0 +1,52 @@
+ssh -i Downloads/jenkins_key.pem ubuntu@35.79.224.100
+(ssh login using key in downloads and ip address)
+
+run these commands
+(sudo apt update
+
+sudo apt install openjdk-11-jdk -y
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update
+
+sudo apt-get install jenkins)
+
+systemctl status jenkins(q for exit)
+
+ls var/lib/jenkins/
+
+id jenkins
+
+
+(in browser ip:8080
+var/lib/jenkins/..... (copy)
+
+in git:
+cat var/lib/jenkins/secrets.....
+copy password and enter in  browser
+)
+
+
+
+
+
+
+every time you need to do this step when you start using jenkings:
+
+ssh -i Downloads/jenkins_key.pem ubuntu@35.79.224.100
+(ssh login using key in downloads and ip address)
+
+ls /usr/lib/jvm/ (all lib are store here)
+
+
+apt install openjdk-8-jdk -y (install aps)
+
+
+
+

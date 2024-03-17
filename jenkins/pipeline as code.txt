@@ -1,0 +1,10 @@
+pipeline as code:
+ create the pipeline script
+ then in jenkins create a job but insted of freestyle select pipeline and in the script section paste the created pipeline script
+ us can build and observe
+
+
+ _____
+ you can also createJenkinsfile  from chatgpt
+ Jenkinsfile with fetch code from git, build with mvn install, post success step with archiving artificats and mvn test stage
+ 

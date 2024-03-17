@@ -1,0 +1,26 @@
+9ad33231d618b5d970f795ecd8f6692f2265ae57
+jenkins: Shantanuhule7003@
+sonar: admin
+nexus: admin123
+
+(sudo rm -r /var/lib/jenkins/workspace/*)
+
+every time when you stop the instance of sonar the ip changes and while building a job in jenkins it will create an error so go in:
+manage jenkings>> system>> and change the IP in sonar qube server
+
+
+
+# remebmer to change the sonarqube server ip in jenkings
+# and the jenings ip in sonarqube weebhooks
+
+(Quality gates and weebhooks)
+Note:
+create quality gate and then use in the current project in sonar,
+u need to connect the jenkins and sonar using webhooks in sonar select project go to weebhooks and create a web hook and in setting provide the current ip of the jenkins server like:
+http://54.250.84.222:8080/sonarqube-webhook
+
+
+
+___________________________
+
+when creating artifacts uploader in nexus code section remebmer to put same id that is created in jenkins credientials for nexus

@@ -1,0 +1,62 @@
+Docker CI in kenkins
+
+install docker engine in jenkins
+    add jenkins user to docker group & reboot
+install aws cli 
+create iam user
+create ecr repo
+plugins 
+     ecr, docker pipeline , aws sdk for credientials
+store aws credientials in jenkins 
+run the pipeline
+
+
+
+___________________________
+login in jenkins using ssh 
+
+docker installations steps:
+
+    # Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+systemctl status docker
+
+
+
+___________________________
+
+in aws create IAM user and ecr repository   
+
+IAM user: ecr container registry full access and ecs full access
+            create access key and download it
+
+create ecr repository
+
+install plugins in jenkins:
+    Docker pipeline
+    amazon ECR 
+    amazon web service SDK::all
+    cloudbees docker build and publish 
+
+
+create credentials in jenkins :
+    create aws credinetals 
+
+
+
+
+

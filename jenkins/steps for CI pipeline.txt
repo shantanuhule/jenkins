@@ -1,0 +1,10 @@
+jenkins setup
+nexus setup
+sonarqube setup
+security group
+plugins
+integrate--
+	nexus
+	sonarqube
+write pipeline script
+set notification

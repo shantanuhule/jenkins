@@ -1,0 +1,63 @@
+install jenkins :
+launch ec2 instance  (ubuntu,key_pair download, sequrity group, ip, 8080 port for jenkins)
+
+ssh -i Downloads/jenkins_key.pem ubuntu@35.79.224.100
+(ssh login using key in downloads and ip address)
+
+sudo -i 
+
+run these commands
+(sudo apt update
+
+sudo apt install openjdk-11-jdk -y
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update
+
+sudo apt-get install jenkins)
+
+
+systemctl status jenkins(q for exit)
+
+ls var/lib/jenkins/
+
+id jenkins
+
+
+(in browser ip:8080
+var/lib/jenkins/..... (copy)
+
+in git:
+cat var/lib/jenkins/secrets.....
+copy password and enter in  browser
+)
+
+
+___________________________
+setup of nexus and sonarqube server(instance)
+nexus:
+create instance: 
+        brouse ami (market place): centos 7
+        download key key_pair
+        security group
+        IP (my ip and anywhere 8081, and jenkins sg )
+
+        advance details from (https://github.com/hkhcoder/vprofile-project/blob/ci-jenkins/userdata/nexus-setup.sh)
+
+browser- ip:8081
+
+sonarqube:
+create instance:
+    ubuntu
+    download key pair 
+    security group
+    ip (my ip , anywhere 80, jenkins sg)
+    advance details from (https://github.com/hkhcoder/vprofile-project/blob/ci-jenkins/userdata/sonar-setup.sh)
+
+browser- ip
